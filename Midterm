@@ -1,0 +1,42 @@
+var s=5;
+var k=2;
+var x=500;
+var y=200;
+var song, analyzer;
+function preload() {
+  song = loadSound('1.mp3');
+}
+function setup() {
+  createCanvas(800,600);
+  colorMode(HSB,360,100,100,100);
+  background(359,0,99);
+   song.loop();
+
+  // create a new Amplitude analyzer
+  analyzer = new p5.Amplitude();
+
+  // Patch the input to an volume analyzer
+  analyzer.setInput(song);
+}
+
+function draw() {
+  var rms = analyzer.getLevel();
+    fill(0,10);
+  rect(0,0,width,height);
+  fill(random(255),random(255),random(255));
+  x+=s;
+  y+=k;
+  ellipse(x,y,50+rms*200,50+rms*200);
+  
+  if(x>width-25||x<25){
+    s+=random(-6,6);
+    if(s>=200){
+      s=5;
+    }
+    s*=-1;
+  }
+  if(y>height-25||y<25){
+    k+=random(-1,1);
+    k*=-1;
+  }
+}
